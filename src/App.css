@@ -1,0 +1,246 @@
+/* login Page */
+
+.login {
+  border: 2px solid black;
+  width: 30%;
+  text-align: center;
+  margin: 10% auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  border-radius: 10px;
+}
+.login > h1 {
+  color: #ec7063;
+}
+.login > input {
+  width: 70%;
+  font-size: 20px;
+  border: none;
+  border-bottom: 2px solid black;
+  margin: 0 auto 10% auto;
+}
+
+.login > input:focus {
+  outline: none;
+}
+
+.login > button {
+  font-size: 20px;
+  width: 70%;
+  margin: 0 auto 5% auto;
+  border: none;
+  background: #ec7063;
+  border-radius: 10px;
+  padding: 5px;
+  outline: white;
+  color: white;
+}
+
+.login > button:disabled {
+  background: #f1b99b;
+}
+
+.noTeam {
+  border: 2px solid lightgray;
+  margin: 5% auto 0 auto;
+  font-size: 30px;
+  width: fit-content;
+  padding: 5% 10% 5% 10%;
+}
+
+/* Add Member */
+form {
+  border: 1px solid black;
+  width: 50%;
+  padding: 4%;
+  margin: 5% auto 0 auto;
+  border: 3px solid lightgray;
+  display: flex;
+  flex-direction: column;
+}
+form > span,
+form > div > span {
+  color: red;
+}
+form > div > input,
+.MoveMember > input {
+  width: 95%;
+  font-size: 20px;
+  padding: 2px;
+  margin: 6px;
+}
+form > div > select {
+  width: 80%;
+  font-size: 20px;
+  padding: 2px;
+  margin: 6px;
+}
+
+form > h1 {
+  margin: 0 2px 3% 0;
+}
+form > div > .button,
+.MoveMember > div > button {
+  width: 47%;
+  font-size: 20px;
+  margin: 3% 1% 0 1%;
+  color: #e53935;
+  background: white;
+  border-radius: 20px;
+  border: 3px solid #e53935;
+  font-weight: bold;
+  cursor: pointer;
+}
+form > div > button:disabled {
+  color: #e5b398;
+  border: 3px solid #e5b398;
+}
+form > div > .plus {
+  width: fit-content;
+  font-size: 20px;
+}
+
+/* addMember > addlist */
+.addList {
+  box-shadow: 5px 10px 10px 5px #888888;
+  max-width: 200px;
+  position: absolute;
+  background: #eceff1;
+  margin-left: 40%;
+  text-align: center;
+  border-radius: 5px;
+  padding: 1.5%;
+}
+.addList > input {
+  width: 90%;
+  margin: 2%;
+}
+.addList > p {
+  margin: 0;
+  font-weight: bold;
+}
+.addList > .save {
+  color: white;
+  background: #1d8348;
+  border-radius: 10px;
+  border: none;
+  font-weight: 400;
+  padding: 4px 8px 4px 8px;
+  margin: 3px;
+}
+.addList > button:disabled {
+  background: #9ab28b;
+}
+.addList > .cancel,
+.addList > table > tbody > tr > td > .cancel {
+  color: white;
+  background: #943126;
+  border-radius: 10px;
+  border: none;
+  font-weight: 400;
+  padding: 4px 8px 4px 8px;
+  margin: 3px;
+}
+/* header */
+nav {
+  margin: 0 0 0 auto;
+  width: fit-content;
+  background: white;
+}
+nav > .Link {
+  margin: 10px 10px 10px 10px;
+  padding: 2px;
+  color: black;
+  text-decoration: none;
+  font-size: 20px;
+}
+header > h1 {
+  background: #ec7063;
+  padding: 15px;
+  margin: 0;
+}
+header > h1 > img {
+  margin-right: 10px;
+  float: right;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  padding: 0 5px 0 5px;
+}
+
+.MoveMember > div > select {
+  width: 42.5%;
+  font-size: 20px;
+  padding: 2px;
+  margin: 6px;
+}
+
+.MoveMember > div > label {
+  width: 20%;
+}
+.MoveMember {
+  display: flex;
+  flex-direction: column;
+}
+
+/* home */
+section {
+  margin: 2% auto 0 auto;
+  text-align: center;
+  width: 90%;
+}
+section > select,
+section > input[type="number"] {
+  width: 20%;
+  font-size: 20px;
+  padding: 2px;
+  margin: 6px;
+}
+
+section > Button {
+  border: none;
+  font-size: 12px;
+  background: #000033;
+  color: #ecf0f1;
+  font-weight: bold;
+  padding: 10px;
+  width: 80px;
+  border-radius: 10px;
+  margin: 3px;
+}
+
+table {
+  border: 3px solid #ec7063;
+  border-radius: 10px;
+  margin: 3% auto 3% auto;
+  width: 80%;
+  padding: 1%;
+  text-align: center;
+}
+table > thead > tr > td {
+  font-weight: bold;
+  font-size: 20px;
+  border-bottom: 1px solid #ec7063;
+  text-align: left;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+table > tbody > tr > td {
+  padding: 10px;
+  width: 20%;
+}
+table > tbody > tr > td > button {
+  border: none;
+  font-size: 12px;
+  background: #000033;
+  color: #ecf0f1;
+  font-weight: bold;
+  padding: 10px;
+  width: 80px;
+  border-radius: 10px;
+}
+table > tbody > tr > td > button:disabled,
+section > Button:disabled {
+  background: #475173;
+}

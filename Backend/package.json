@@ -1,0 +1,27 @@
+{
+    "name": "team-tracker",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "node_modules/.bin/pm2 start src/index.js --watch",
+      "test": "jest --forceExit",
+      "stop": "node_modules/.bin/pm2 kill"
+    },
+    "jest": {
+      "testResultsProcessor": "./node_modules/jest-junit-reporter"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1",
+      "jest": "^24.9.0",
+      "jest-junit-reporter": "^1.1.0",
+      "jsonwebtoken": "^8.5.1",
+      "mongoose": "^5.10.9",
+      "pm2": "^4.5.0",
+      "supertest": "^5.0.0"
+    }
+  }
+  
