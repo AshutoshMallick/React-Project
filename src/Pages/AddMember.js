@@ -21,70 +21,45 @@ class AddMember extends Component {
       errorStmtExperience: "",
       isValid: false
     };
-    this.handleClear = this.handleClear.bind(this); // Bind handleClear
+    this.handleClear = this.handleClear.bind(this); 
     this.handleAddMember = this.handleAddMember.bind(this);
     this.AddRequest = this.AddRequest.bind(this);
   }
-  //onMounting
-  //if local storage had token proceed to set data in state
-  //if local storage does not have token route back to login page
-  //code goes here to set value returned from handleGetTeam to teams state
   async componentDidMount() {
     const token = this.getLocalStorage();
     if (!token) {
       this.props.history.push("/login");
       return;
     }
-    // this.handleGetTeam().then((teams)=> this.setState({teams}));
-    // this.handleGetMembers("/api/tracker/members/display")
-    // .then((data)=> this.setState({
-    //   data
-    // }));
+    
     try {
       const teams = await this.handleGetTeam();
-      // const data = await this.handleGetMembers("/api/tracker/members/display");
-      this.setState({ teams: teams || [], isValid: true }); // Ensure button is enabled
+      this.setState({ teams: teams || [], isValid: true }); 
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
   getLocalStorage = () => {
-    //code goes here to get token value from local storage
-
     const token = localStorage.getItem("authToken");
     console.log("inside getLocalStorage", token);
-    return token ? token.trim() : ""; // Ensure it's never null
+    return token ? token.trim() : ""; 
   };
-
-
   handleGetTeam = async () => {
-    //code goes here to return the respose of technologies get api
     const res = await fetch("/api/tracker/technologies/get", {
       headers: { Authorization: `Bearer ${this.getLocalStorage()}` },
     });
     if (!res.ok) throw new Error("Failed to fetch teams");
     return res.json();
   };
-  // handleChange = (e) => {
-  //   //code goes here to handle onChange event
-  //   this.setState({
-  //     [e.target.name]: e.target.value,
-  //     errorStmtEmpId: "",
-  //     errorStmtEmpName: "",
-  //     errorStmtExperience: "",
-  //   }, this.validateForm);
-  // };
   handleChange = (e) => {
     const { name, value, type } = e.target;
-
-    // Convert number inputs to actual numbers
     const newValue = type === "number" ? Number(value) : value;
     this.setState(
       {
         [name]: value,
       },
       () => {
-        this.validateForm(); // Ensure validation runs AFTER state is updated
+        this.validateForm(); 
       }
     );
   };
@@ -141,14 +116,8 @@ class AddMember extends Component {
     return isValid;
   };
   handleAddMember = async (e) => {
-    //code goes here to handle add member button using the return value of AddRequest 
     console.log("handleAddMember called");
     e.preventDefault();
-    const token = this.getLocalStorage();
-    if (!token) {
-      console.error("Token is missing, cannot proceed.");
-      return;
-    }
     const status = await this.AddRequest();
     if (status === 409) {
       alert("Member already exists in the team which you are adding");
@@ -157,8 +126,7 @@ class AddMember extends Component {
     }
   };
 
-  AddRequest = async () => {
-    //code goes here to return the response status of add member api
+  AddRequest = async () => { // Convert to arrow function
     console.log("AddRequest called");
     const { empId, empName, experience, teamName } = this.state;
     const res = await fetch(`/api/tracker/members/add`, {
@@ -168,23 +136,22 @@ class AddMember extends Component {
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
-        employee_id: empId && !isNaN(empId) ? (typeof empId === 'number' ? empId : Number(empId)) : "",
+        employee_id: empId ? Number(empId) : "",
         employee_name: empName,
         technology_name: teamName,
-        experience:  experience && !isNaN(experience) ? (typeof experience === 'number' ? experience : Number(experience)) : "",
+        experience: experience ? Number(experience) : "",
       }),
     });
     return res.status;
   };
 
   handleClear = () => {
-    //code goes here to handle clear button
     console.log("handleClear");
     this.setState({
       empId: "",
       empName: "",
       experience: "",
-      teamName: "", // Reset dropdown value
+      teamName: "", 
       errorStmtEmpId: "",
       errorStmtEmpName: "",
       errorStmtExperience: "",
@@ -192,7 +159,6 @@ class AddMember extends Component {
   };
 
   handleAddOrDeleteTeam = (e, action) => {
-    // code goes here to swtich between add or delete team
     if (e === "createTeam") {
       this.setState({ createTeam: true })
     } else if (e === "deleteTeam") {
@@ -201,7 +167,6 @@ class AddMember extends Component {
   };
 
   handleCancel = (e, action) => {
-    //code goes here to handle cancel button
     if (e === "createTeam") {
       this.setState({ createTeam: false })
     } else if (e === "deleteTeam") {
@@ -210,7 +175,6 @@ class AddMember extends Component {
   };
 
   handleSave = async (e) => {
-    //code goes here to handle save button
     const status = await this.saveTeam();
     if (status === 201) {
       alert("Team added successfully");
@@ -219,17 +183,6 @@ class AddMember extends Component {
     }
   };
 
-  // saveTeam = async () => {
-  //   //code goes here to return the status of /technologies/add api
-  //   const response = await axios.post("/api/tracker/technologies/add", {
-  //     technology_name: this.state.newTeam,
-  //   }, {
-  //     headers: {
-  //       Authorization: `Bearer ${this.getLocalStorage()}`,
-  //     },
-  //   });
-  //   return response.status;
-  // };
   saveTeam = async () => {
     try {
       const response = await fetch("/api/tracker/technologies/add", {
@@ -250,68 +203,12 @@ class AddMember extends Component {
     }
   };
 
-  // handleRemoveTeam = async (e, tech) => {
-  //   //code goes here to handle remove team using the value returned from removeTeamRequest function
-  //   // const status = await this.removeTeamRequest(tech);
-  //   // if (status === 200) {
-  //   //   alert("Team deleted successfully");
-  //   // } else {
-  //   //   alert("Couldn't delete the team");
-  //   // }
-  //   // Call removeTeamRequest and handle response status
-  //   try {
-  //     const status = await this.removeTeamRequest(tech);
-  //     if (status === 200) {
-  //       alert("Team deleted successfully");
-  //     } else {
-  //       alert("Couldn't delete the team");
-  //     }
-  //   } catch (error) {
-  //     alert("An error occurred while deleting the team");
-  //   }
-  // };
-
-  // removeTeamRequest = async (id) => {
-  //   //code goes here to return response status of remove technologies api
-  //   // const response = await axios.delete(`/api/tracker/technologies/remove/${tech}`, {
-  //   //   headers: {
-  //   //     Authorization: `Bearer ${this.getLocalStorage()}`,
-  //   //   },
-  //   // });
-  //   // return response.status;
-  //   // Ensure tech is passed correctly and get token securely
-  //   try {
-  //     const token = this.getLocalStorage();
-  //     const response = await axios.delete(`/api/tracker/technologies/remove/${id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     return response.status;
-  //   } catch (error) {
-  //     console.error("Error deleting team:", error);
-  //     return error.response ? error.response.status : 500; // Return status or 500 for failure
-  //   }
-  // };
-  // handleRemoveTeam = async (e, tech) => {
-  //   try {
-  //     const status = await this.removeTeamRequest(tech);
-  //     if (status === 200) {
-  //       alert("Team deleted successfully");
-  //     } else {
-  //       alert("Couldn't delete the team");
-  //     }
-  //   } catch (error) {
-  //     console.error("An error occurred while deleting the team:", error);
-  //   }
-  // };
   handleRemoveTeam = async (tech) => {
     try {
       if (!tech) {
         console.error("No team name provided for deletion");
         return;
       }
-
       const status = await this.removeTeamRequest(tech);
       if (status === 200) {
         alert("Team deleted successfully");
@@ -323,38 +220,13 @@ class AddMember extends Component {
     }
   };
 
-  // removeTeamRequest = async (tech) => {
-  //   try {
-  //     let token = this.getLocalStorage();
-  //     console.log("removeTeamRequest",token);
-  //     // Ensure token is valid
-  //     if (!token || typeof token !== "string") {
-  //       throw new Error("Invalid token");
-  //     }
-  //     token = token.trim(); // Remove unwanted spaces
-
-  //     const response = await fetch(`/api/tracker/technologies/remove/${tech}`, {
-  //       method: "Delete",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     return response.status;
-  //   } catch (error) {
-  //     console.error("Error deleting team:", error);
-  //     return 500; // Return 500 for failure
-  //   }
-  // };
   removeTeamRequest = async (tech) => {
     try {
-      const token = this.getLocalStorage()?.trim(); // Ensure token is valid
-
+      const token = this.getLocalStorage()?.trim(); 
       if (!token) {
         console.error("Invalid token");
-        return 401; // Unauthorized error
+        return 401; 
       }
-
       const response = await fetch(`/api/tracker/technologies/remove/${tech}`, {
         method: "Delete",
         headers: {
@@ -365,23 +237,19 @@ class AddMember extends Component {
       return response.status;
     } catch (error) {
       console.error("Error deleting team:", error);
-      return 500; // Return 500 for failure
+      return 500; 
     }
   };
 
 
   render() {
     const { empId, empName, teamName, experience, createTeam, deleteTeam, newTeam, teams, errorStmtEmpId, errorStmtEmpName, errorStmtExperience, isValid } = this.state;
-
-
     return (
       <>
-        {/* onSubmit={this.handleAddMember} */}
         <Header />
         <form>
           <h1>Add Team Member</h1>
           <div>
-            {/*code goes here to display the input fields, Plus and Delete button*/}
             <input
               name="empId"
               placeholder="Employee ID"
@@ -409,15 +277,12 @@ class AddMember extends Component {
               type="text"
               onChange={this.handleChange}>
               <option value="">Select Team</option>
-              {/* <option value="Backend">Backend</option>
-              <option value="Frontend">Frontend</option> */}
               {
                 teams?.map((team) => (
                   <option key={team._id} value={team.name}>{team.name}</option>
                 ))
               }
             </select>
-            {/* create team */}
             <button
               type="button"
               onClick={() => this.handleAddOrDeleteTeam("createTeam")}>
@@ -431,7 +296,6 @@ class AddMember extends Component {
             {(createTeam || deleteTeam) && (
               <div className="addList">
                 <p>{deleteTeam ? "Delete Team" : "Create New Label"}</p>
-
                 {createTeam && (
                   <>
                     <input
@@ -440,21 +304,12 @@ class AddMember extends Component {
                       value={newTeam}
                       onChange={this.handleChange}
                     />
-                    <button type="button" onClick={this.handleSave}>Save</button>
+                    <button type="button" onClick={() => this.handleSave()}>Save</button>
                     <button type="button" onClick={() => this.handleCancel("createTeam")}>Cancel</button>
                   </>
                 )}
 
                 {deleteTeam && (
-                  // <>
-                  //   {teams.map((team) => (
-                  //     <div key={team}>
-                  //       <span>{team}</span>
-                  //       <button type="button" onClick={() => this.handleRemoveTeam(team)}>X</button>
-                  //     </div>
-                  //   ))}
-                  //   <button type="button" onClick={() => this.handleCancel("deleteTeam")}>Cancel</button>
-                  // </>
                   <table>
                     <tbody>
                       {teams?.map((team, index) => (
@@ -470,7 +325,6 @@ class AddMember extends Component {
                           </td>
                         </tr>
                       ))}
-                      {/* Cancel button row */}
                       <tr>
                         <td colSpan="2">
                           <button type="button" onClick={() => this.handleCancel("deleteTeam")}>
@@ -483,22 +337,14 @@ class AddMember extends Component {
                 )}
               </div>
             )}
-
-            {/* Delete Team */}
-
-            {/* )} */}
-            {/* code goes here for the experience input fieldonClick={this.handleAddMember}  */}
-          </div>
-          <div>
-            <button className="button" type="button" disabled={!isValid} onClick={this.handleAddMember}>
+            <button className="button" type="button" disabled={!isValid} onClick={(e) => this.handleAddMember(e)}>
               Add
             </button>
-            <button className="button" type="button" onClick={this.handleClear}>
+            <button className="button" type="button" onClick={(e) => this.handleClear()}>
               Clear
             </button>
           </div>
         </form>
-
       </>
     );
   }
